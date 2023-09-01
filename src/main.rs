@@ -84,9 +84,9 @@ fn main() -> anyhow::Result<()> {
     let edit_menu = Submenu::new("&Edit", true);
     edit_menu.append_items(&[
         #[cfg(target_os = "macos")]
-        &PredefinedMenuItem::undo(None),
+            &PredefinedMenuItem::undo(None),
         #[cfg(target_os = "macos")]
-        &PredefinedMenuItem::redo(None),
+            &PredefinedMenuItem::redo(None),
         &PredefinedMenuItem::separator(),
         &PredefinedMenuItem::cut(None),
         &PredefinedMenuItem::copy(None),
@@ -103,9 +103,9 @@ fn main() -> anyhow::Result<()> {
     menu_bar.append_items(&[
         &edit_menu,
         #[cfg(target_os = "macos")]
-        &view_menu,
+            &view_menu,
         #[cfg(not(target_os = "linux"))]
-        &window_menu,
+            &window_menu,
     ])?;
 
     #[cfg(target_os = "windows")]
@@ -127,6 +127,8 @@ fn main() -> anyhow::Result<()> {
         .with_url(auth_url.as_str())?
         .with_devtools(true)
         .build()?;
+
+    webview.clear_all_browsing_data()?;
 
     if args.clear_browsing_data {
         webview.clear_all_browsing_data()?;
@@ -224,7 +226,7 @@ fn render_error_view(error: anyhow::Error) -> String {
         `;
         document.querySelector("h1.h1").outerHTML = html;
     "#
-    .replace("{msg}", &error.to_string())
+        .replace("{msg}", &error.to_string())
 }
 
 fn render_tokens_view(tokens: auth::Tokens) -> String {
@@ -245,7 +247,7 @@ fn render_tokens_view(tokens: auth::Tokens) -> String {
 
         document.querySelector("h1.h1").outerHTML = html;
     "#
-    .replace("{access_token}", tokens.access.secret())
-    .replace("{refresh_token}", tokens.refresh.secret())
-    .replace("{expires_in}", &format!("{}", tokens.expires_in))
+        .replace("{access_token}", tokens.access.secret())
+        .replace("{refresh_token}", tokens.refresh.secret())
+        .replace("{expires_in}", &format!("{}", tokens.expires_in))
 }
